@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <h1>Visualizar Projeto</h1>
+    <form method="post" action="/create_project">
+        <div class="form-group">
+            <label for="name_project">Nome do Projeto</label>
+            <input type="text" class="form-control" id="name_project" name="name_project" value="{{project.name_project}}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="fl_active">Status do Projeto</label>
+            <select class="form-control" id="fl_active" name="fl_active" required>
+                <option value="1">Ativo</option>
+                <option value="0">Inativo</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="connection_origin1">Conexão de Origem</label>
+            <select class="form-control" id="connection_origin1" name="connection_origin1">
+                {% for connection in connection_origin1 %}
+                    <option value="{{ connection_origin1.id_connection }}">{{ connection_origin1.ds_name_connection }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="connection_origin2">Conexão de Destino</label>
+            <select class="form-control" id="connection_origin2" name="connection_origin2">
+                {% for connection in connection_origin2 %}
+                    <option value="{{ connection_origin1.id_connection }}">{{ connection_origin1.ds_name_connection }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Editar Projeto</button>
+    </form>
+</div>
+
+{% endblock %}
