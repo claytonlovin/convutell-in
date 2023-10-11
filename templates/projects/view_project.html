@@ -7,7 +7,7 @@
 
 <div class="container">
     <h1>Visualizar Projeto</h1>
-    <form method="post" action="/create_project">
+    <form method="POST" action="/projects/edit_project/{{ project.id_project}}">
         <div class="form-group">
             <label for="name_project">Nome do Projeto</label>
             <input type="text" class="form-control" id="name_project" name="name_project" value="{{project.name_project}}" required>
@@ -24,7 +24,7 @@
             <label for="connection_origin1">Conexão de Origem</label>
             <select class="form-control" id="connection_origin1" name="connection_origin1">
                 {% for connection in connection_origin1 %}
-                    <option value="{{ connection_origin1.id_connection }}">{{ connection_origin1.ds_name_connection }}</option>
+                    <option value="{{ connection.id_connection }}">{{ connection.ds_name_connection }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -32,12 +32,26 @@
             <label for="connection_origin2">Conexão de Destino</label>
             <select class="form-control" id="connection_origin2" name="connection_origin2">
                 {% for connection in connection_origin2 %}
-                    <option value="{{ connection_origin1.id_connection }}">{{ connection_origin1.ds_name_connection }}</option>
+                    <option value="{{ connection.id_connection }}">{{ connection.ds_name_connection }}</option>
                 {% endfor %}
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Editar Projeto</button>
+        <button type="submit" value="submit" class="btn btn-primary">Editar Projeto</button>
+        <button type="submit" id="deleteButton" data-project-id="{{ project.id_project }}" class="btn btn-danger">Excluir Projeto {{ project.id_project }} </button>
     </form>
 </div>
+
+<script type="text/javascript">
+    const deleteButton = document.getElementById("deleteButton");
+
+    deleteButton.addEventListener("click", function () {
+        const projectId = deleteButton.getAttribute("data-project-id");
+        const confirmDelete = confirm("Tem certeza de que deseja excluir este projeto?", projectId);
+        alert(projectId)
+        if (confirmDelete) {
+            window.location.href = `/delete_project/${projectId}`;
+        }
+    });
+</script>
 
 {% endblock %}
