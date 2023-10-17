@@ -37,7 +37,7 @@
             </select>
         </div>
         <button type="submit" value="submit" class="btn btn-primary">Editar Projeto</button>
-        <button type="submit" id="deleteButton" data-project-id="{{ project.id_project }}" class="btn btn-danger">Excluir Projeto {{ project.id_project }} </button>
+        <button type="" id="deleteButton" data-project-id="{{ project.id_project }}" class="btn btn-danger">Excluir Projeto {{ project.id_project }} </button>
     </form>
 </div>
 
@@ -49,7 +49,7 @@
         const confirmDelete = confirm("Tem certeza de que deseja excluir este projeto?", projectId);
         alert(projectId)
         if (confirmDelete) {
-            window.location.href = `/delete_project/${projectId}`;
+            window.location.href = `/delete_project/${1}`;
         }
     });
 </script>

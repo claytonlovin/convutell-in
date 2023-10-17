@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+
+{% block title %}Time{% endblock %}
+
+{% block content %}
+
+<div class="container ">
+    <div class="d-flex  justify-content-between align-items-center mb-3">
+        <h1>Tempos do Projeto</h1>
+        <button class="btn btn-primary mr-3">Criar Horário</button>
+    </div>
+    <div class="list-group group">
+        {% for time in times %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+                <input type="time" class="form-control" value="{{ time.time }}">
+            <div class="btn-group">
+                <form  action="/times/edit_time/{{ time.id_time }}" method ="POST">
+                    <input type="hidden" name="id_time" value="{{ time.id_time }}">
+                    <input type="hidden" name="id_project" value="{{ time.id_project }}">
+                    <input type="hidden" name="time" value="{{ time.time }}">
+                    <button class="btn btn-primary">Editar</button>
+                </form>
+                <form id="deleteForm" action="/times/delete_time/{{ time.id_time }}" method="POST">
+                    <input type="hidden" name="id_time" value="{{ time.id_time }}">
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<style type="text/css">
+ 
+    .list-group{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    }
+    .list-group-item{
+        padding: 20px;
+    }
+</style>
+
+  
+{% endblock %}

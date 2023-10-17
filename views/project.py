@@ -129,9 +129,9 @@ def edit_project(id_project):
             return "Erro ao atualizar o projeto"
 
     return redirect(url_for('projects.show_projects'))
-
-
-@projects_bp.route('/delete_project/<int:project_id>', methods=['POST'])
+ 
+ 
+@projects_bp.route('/edit_project/delete_project/<int:project_id>', methods=['POST'])
 def delete_project(project_id):
     if request.method == 'POST':
         try:

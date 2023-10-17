@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+
+{% block title %}Logs{% endblock %}
+
+{% block content %}
+<div class="">
+    <h1>Logs do Projeto</h1>
+    <table class="table  table-hover dt-responsive"  id="logTable">
+        <thead>
+            <tr>
+                <th>ID do Log</th>
+                <th>ID do Projeto</th>
+                <th>Data de Execução</th>
+                <th>Descrição do Log</th>
+                <th>Erro</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log_item in log %}
+            <tr>
+                <td>{{ log_item.id_log }}</td>
+                <td>{{ log_item.id_project }}</td>
+                <td>{{ log_item.dt_execution }}</td>
+                <td>{{ log_item.ds_log }}</td>
+                <td>{{ log_item.fl_error }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+  
+{% endblock %}

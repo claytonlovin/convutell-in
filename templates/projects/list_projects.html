@@ -32,9 +32,12 @@
                 <a href="{{ url_for('projects.view_project', project_id=project.id_project) }}" type="button" class="btn btn-primary">
                     <i class="fas fa-eye"></i> Ver Projetos
                 </a>
-                <button type="button" class="btn btn-secondary">
+                <a href="{{ url_for('logs.get_log', id_project = project.id_project)}}" type="button" class="btn btn-secondary">
                     <i class="fas fa-file-alt"></i> Log
-                </button>
+                </a>
+                <a href="{{ url_for('times.get_times', id_project=project.id_project) }}" type="button" class="btn btn-secondary">
+                    <i class="fa-solid fa-clock"></i>Time
+                </a>
             </div>
         </div>
     </div>
