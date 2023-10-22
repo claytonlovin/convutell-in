@@ -1,0 +1,39 @@
+<!-- view_connection.html -->
+{% extends 'index.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Detalhes da Conexão</h1>
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="ds_name_connection">Nome da Conexão</label>
+                <input type="text" class="form-control" id="ds_name_connection" name="ds_name_connection" value="{{ connection.ds_name_connection }}">
+            </div>
+            <div class="form-group">
+                <label for="ds_user">Usuário</label>
+                <input type="text" class="form-control" id="ds_user" name="ds_user" value="{{ connection.ds_user }}">
+            </div>
+            <div class="form-group">
+                <label for="ds_connection">Conexão</label>
+                <input type="text" class="form-control" id="ds_connection" name="ds_connection" value="{{ connection.ds_connection }}">
+            </div>
+            <div class="form-group">
+                <label for="ds_password">Senha</label>
+                <input type="password" class="form-control" id="ds_password" name="ds_password" value="{{ connection.ds_password }}">
+            </div>
+            <div class="form-group">
+                <label for="ds_port">Porta</label>
+                <input type="text" class="form-control" id="ds_port" name="ds_port" value="{{ connection.ds_port }}">
+            </div>
+            <div class="form-group">
+                <label for="ds_database">Banco de Dados</label>
+                <input type="text" class="form-control" id="ds_database" name="ds_database" value="{{ connection.ds_database }}">
+            </div>
+            <div class="form-group">
+                <label for="ds_connector">Conector</label>
+                <input type="text" class="form-control" id="ds_connector" name="ds_connector" value="{{ connection.ds_connector }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div style="text-align: center; margin-top: 50px;">
+    <h1><i class="fas fa-exclamation-triangle" style="color: #FF5733;"></i>Ops! Ocorreu um erro</h1>
+    <h3>Erro {{ error }}</h3>
+    <p>Desculpe, ocorreu um erro ao processar sua solicitação.</p>
+    <p>Por favor, verifique se a URL está correta e tente novamente.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'index.html' %}
+
+{% block title %}Time{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex  justify-content-between align-items-center mb-3">
+        <h4>Conexões</h4>
+        <button class="btn btn-primary mr-3" data-toggle="modal" data-target="#conexaoModal">Criar conexão</button>
+    </div>
+    <div class="row">
+        {% for conection in conection %}
+        <div class="col-md-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ conection.ds_name_connection }}</h5>
+                    <p class="card-text">Outros detalhes da conexão, se necessário.</p>
+                    <a href="{{ url_for('conection.get_connection_by_id', id_connection=conection.id_connection) }}" class="btn btn-primary view-details">
+                        <i class="fa-solid fa-eye"></i> Detalhes
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor%}
+    </div>
+</div>
+
+
+
+
+<!-- Modal para exibir e editar detalhes da conexão -->
+<div class="modal fade" id="conexaoModal" tabindex="-1" role="dialog" aria-labelledby="conexaoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="conexaoModalLabel">Detalhes da Conexão</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/connection/create_connection/">
+                    <div class="form-group">
+                        <label for="ds_name_connection">Nome da Conexão</label>
+                        <input type="text" class="form-control" id="ds_name_connection" name="ds_name_connection" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="ds_user">Usuário</label>
+                        <input type="text" class="form-control" id="ds_user" name="ds_user" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="ds_connection">Conexão</label>
+                        <input type="text" class="form-control" id="ds_connection" name="ds_connection" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="ds_password">Senha</label>
+                        <input type="password" class="form-control" id="ds_password" name="ds_password" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="ds_port">Porta</label>
+                        <input type="text" class="form-control" id="ds_port" name="ds_port" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="ds_database">Banco de Dados</label>
+                        <input type="text" class="form-control" id="ds_database" name="ds_database" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="ds_connector">Conector</label>
+                        <input type="text" class="form-control" id="ds_connector" name="ds_connector" value="">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
