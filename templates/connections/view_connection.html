@@ -4,7 +4,7 @@
 {% block content %}
     <div class="container">
         <h1>Detalhes da Conexão</h1>
-        <form action="#" method="POST">
+        <form  method="post" action="/connection/edit_connection/{{ connection.id_connection }}">
             <div class="form-group">
                 <label for="ds_name_connection">Nome da Conexão</label>
                 <input type="text" class="form-control" id="ds_name_connection" name="ds_name_connection" value="{{ connection.ds_name_connection }}">
@@ -34,6 +34,11 @@
                 <input type="text" class="form-control" id="ds_connector" name="ds_connector" value="{{ connection.ds_connector }}">
             </div>
             <button type="submit" class="btn btn-primary">Salvar</button>
+            
+        </form>
+        <form class="py-3" method="post" action="/connection/delete_connection/{{ connection.id_connection }}" >
+            <button type="submit" id="deleteButton" class="btn btn-danger">Excluir conexão </button>
         </form>
     </div>
+
 {% endblock %}
