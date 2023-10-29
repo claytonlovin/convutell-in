@@ -1,16 +1,15 @@
 version: '3'
 services:
-  mongodb:
-    image: my-mongodb-image # Use o nome da imagem que você definiu ao criar a imagem MongoDB
-    container_name: mongodb
+  app:
+    build: .
     ports:
-      - "27017:27017"
-    volumes:
-      - mongodb-data:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=Tlps1127
-    command: mongod --bind_ip_all
+      - "5000:5000"
 
-volumes:
-  mongodb-data:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - app

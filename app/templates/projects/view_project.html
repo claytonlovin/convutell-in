@@ -34,7 +34,7 @@
                 {% for connection in connection_origin2 %}
                     <option value="{{ connection.id_connection }}">{{ connection.ds_name_connection }}</option>
                 {% endfor %}
-            </select>
+            </select> 
         </div>
         <button type="submit" value="submit" class="btn btn-primary">Editar Projeto</button>
         <button type="" id="deleteButton" data-project-id="{{ project.id_project }}" class="btn btn-danger">Excluir Projeto {{ project.id_project }} </button>

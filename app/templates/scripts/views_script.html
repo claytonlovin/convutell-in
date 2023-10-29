@@ -1,0 +1,127 @@
+{% extends 'index.html' %}
+
+{% block title %}Detalhes da Consulta{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12 col-md-6 mb-4">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2>Scritps</h2>
+            </div>
+            <div class="col d-flex bd-highlight justify-content-end">
+                <a href="#"  class="btn btn-primary mr-2" data-toggle="modal" data-target="#conexaoModal">Criar Scipt</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if query_data is not none and query_data|length >= 1 %}
+<div class="table">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">SCRIPT</th>
+                <th scope="col">TB_DESTINO</th>
+                <th scope="col" class="col-14">ORDEM</th>
+                <th scope="col">TIPO DE CONSULTA</th>
+                <th scope="col">AÇÕES</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for query in query_data %}
+            <tr>
+                <td class="code_origen"><input type="text" value="{{ query.origin_query }}"></td>
+                <td class=""><input type="text" value="{{ query.query_destination }}"></td>
+                <td class=""><input type="text" value="{{ query.nr_execution_order }}"></td>
+                <td class="">
+                    <select class="form-control" name="id_type_query">
+                        <option value="1" {% if query.id_type_query == 1 %}selected{% endif %}>Truncate</option>
+                        <option value="2" {% if query.id_type_query == 2 %}selected{% endif %}>Incremental</option>
+                    </select>
+                </td>
+                <td class="button-time">
+                    <a href="/script/update_query/{{query.id_query}}" class="btn btn-primary">
+                        <i class="fa-regular fa-pen-to-square"></i> Editar</a>
+                    <a href="#" class="btn btn-primary">
+                        <i class="fa-solid fa-play"></i> Execution</a>
+                    <a href="/script/delete_query/{{ query.id_query}}/{{query.id_project}}" class="btn btn-danger delete-btn-query">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% else %}
+<div class="return_void">
+    <p>Nenhuma consulta por enquanto</p>
+</div>
+{% endif %}
+
+
+<!-- MODAL DE CRIAÇÃO DE CONSULTA -->
+<div class="modal fade" id="conexaoModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Criar nova consulta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/script/create_script/">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="origin_query">Origem da Consulta</label>
+                        <input type="hidden" class="form-control" id="id_project" name="id_project" value="1">
+                        <input type="text" class="form-control" id="origin_query" name="origin_query">
+                    </div>
+                    <div class="form-group">
+                        <label for="query_destination">Destino da Consulta</label>
+                        <input type="text" class="form-control" id="query_destination" name="query_destination">
+                    </div>
+                    <div class="form-group">
+                        <label for="nr_execution_order">Ordem de Execução</label>
+                        <input type="number" class="form-control" id="nr_execution_order" name="nr_execution_order">
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="id_type_query">Opção</label>
+                        <select class="form-control" id="id_type_query" name="id_type_query">
+                            <option value="1">Truncate</option>
+                            <option value="2">Incremental</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>            
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .table{
+        width: 1135px !important;
+    }
+    .col-14{
+        width: 40px;
+    }
+    .form-control, option{
+        width: 100%;
+        height: 62px;
+        border: 1px solid #ccc;
+        color: rgba(43, 43, 43, 0.8);
+    }
+    input{
+        width: 100%;
+        height: 62px;
+        border: 1px solid #ccc;
+        color: rgba(43, 43, 43, 0.8);
+}
+    </style>
+{% endblock %}

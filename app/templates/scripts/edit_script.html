@@ -1,0 +1,77 @@
+{% extends 'index.html' %}
+
+{% block title %}Detalhes da Consulta{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12 col-md-6 mb-4">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2>Ediar</h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% for data_edit_query in data_edit_query %}
+<form method="POST" action="/script/update_query/{{ data_edit_query.id_query }}">
+    <div class="modal-body">
+        
+        <div class="form-group">
+            
+            <label for="origin_query">Origem da Consulta</label>
+            <input type="hidden" class="form-control " id="id_project" name="id_project" value="{{data_edit_query.id_project}}">
+            <input type="text" class="form-control origin_query" id="origin_query" name="origin_query" value="{{data_edit_query.origin_query}}">
+        </div>
+        <div class="form-group">
+            <label for="query_destination">Destino da Consulta</label>
+            <input type="text" class="form-control" id="query_destination" name="query_destination" value="{{ data_edit_query.query_destination }}">
+        </div>
+        <div class="form-group">
+            <label for="nr_execution_order">Ordem de Execução</label>
+            <input type="number" class="form-control" id="nr_execution_order" name="nr_execution_order" value="{{data_edit_query.nr_execution_order}}">
+        </div>
+
+        <div class="form-group">
+            <label for="id_type_query">Opção</label>
+            <select class="form-control" id="id_type_query" name="id_type_query">
+                <option value="1" {% if data_edit_query.id_type_query == 1 %}selected{% endif %}>Truncate</option>
+                <option value="2" {% if data_edit_query.id_type_query == 2 %}selected{% endif %}>Incremental</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+</form>
+ {% endfor %}
+ 
+<style>
+    .col-14{
+        width: 40px;
+    }
+    input[type="text"] {
+        background-color: #5a5c69;
+        color: white; 
+        border: 1px solid #ccc; 
+    }
+    input[type="text"]:focus {
+        background-color: #5a5c69; 
+        border: 1px solid #333; 
+        color: #fff;
+    }
+
+    .form-control, option{
+        width: 100%;
+        height: 62px;
+        border: 1px solid #ccc;
+        color: rgba(43, 43, 43, 0.8);
+    }
+    input{
+        width: 100%;
+        height: 62px;
+        border: 1px solid #ccc;
+        color: rgba(43, 43, 43, 0.8);
+}
+    </style>
+{% endblock %}
