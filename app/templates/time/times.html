@@ -9,24 +9,32 @@
         <h4>Tempos do Projeto</h4>
         <button class="btn btn-primary mr-3" data-toggle="modal" data-target="#criarHorarioModal">Criar Horário</button>
     </div>
+    {% if times %}
     <div class="list-group group">
         {% for time in times %}
-        <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-                <form class=""  action="/times/edit_time/{{ time.id_time }}" method ="POST">
-                    <input type="hidden" name="id_time" value="{{ time.id_time }}">
-                    <input type="hidden" name="id_project" value="{{ time.id_project }}">
-                    <input type="time" name="time_l" id="time_l" value="{{ time.time }}">
-                    <button class="btn btn-primary">Editar</button>
-                </form>
-                <form id="deleteForm" action="/times/delete_time/{{ time.id_time }}" method="POST">
-                    <input type="hidden" name="id_time" value="{{ time.id_time }}">
-                    <button type="submit" class="btn btn-danger">Excluir</button>
-                </form>
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <form class=""  action="/times/edit_time/{{ time.id_time }}" method="POST">
+                        <input type="hidden" name="id_time" value="{{ time.id_time }}">
+                        <input type="hidden" name="id_project" value="{{ time.id_project }}">
+                        <input type="time" name="time_l" id="time_l" value="{{ time.time }}">
+                        <button class="btn btn-primary">Editar</button>
+                    </form>
+                    <form class="mb-3" id="deleteForm" action="/times/delete_time/{{ time.id_time }}" method="POST">
+                        <input class="btn" type="hidden" name="id_time" value="{{ time.id_time }}">
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </div>
             </div>
-        </div>
         {% endfor %}
     </div>
+{% else %}
+    <div class="return_void text-center">
+        <p>Nenhum tempo definido</p>
+    </div>
+{% endif %}
+
+
 </div>
 
 
@@ -44,7 +52,7 @@
                 <div class="modal-body">
                         <div class="">
                             <label for="horario">Horário</label>
-                            <input type="hidden" name="id_project" value="{{ times[0].id_project }}">
+                            <input type="hidden" name="id_project" name="id_project" value="{{ id_project }}">
                             <input type="time" class="form-control" id="new_time" name="new_time">
                         </div>
                 
