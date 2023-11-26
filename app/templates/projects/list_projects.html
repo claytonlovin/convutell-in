@@ -21,11 +21,14 @@
     {% for project in projects %}
     <div class="col-md-12 mb-3">
         {% if project.fl_active == 0 %}
-        <div class="card border-left-danger">
+        <div class="card border-right-alert">
         {% else %}
-        <div class="card border-left-success">
+        <div class="card border-right-success">
         {% endif %}
-        <div class="card-body">
+        <div class="card-body" 
+            {% if project.type_project == 1 %}
+                style="background-color: #e4fafffa; border-radius: 5px;"
+            {% endif %}>
             <h5 class="card-title"><strong>Nome Projeto: </strong>{{ project.name_project }}</h5>
             <p class="card-text"><strong>Data da Última Execução:</strong> {{ project.dt_last_run }}</p>
             <div class="">
@@ -38,9 +41,15 @@
                 <a href="{{ url_for('times.get_times', id_project=project.id_project) }}" type="button" class="btn btn-secondary">
                     <i class="fa-solid fa-clock"></i>Time
                 </a>
-                <a href="{{ url_for('script.view_script', id_project=project.id_project) }}" type="button" class="btn btn-secondary">
-                    <i class="fa-solid fa-scroll"></i>Scripts
-                </a>
+                {% if project.type_project == 1 %}
+                    <a href="{{ url_for('pyscript.view_script_python', id_project=project.id_project) }}" type="button" class="btn btn-secondary">
+                        <i class="fa-solid fa-scroll"></i>Scripts
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('script.view_script', id_project=project.id_project) }}" type="button" class="btn btn-secondary">
+                        <i class="fa-solid fa-scroll"></i>Scripts
+                    </a>
+                {% endif %}
             </div> 
         </div>
     </div>

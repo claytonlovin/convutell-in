@@ -7,17 +7,21 @@ times_bp = Blueprint('times', __name__, template_folder="./templates", static_fo
 
 API_URL = config('API_URL')
 
-@times_bp.route('/times/<int:id_project>')
-def get_times(id_project):
-    try:
+@times_bp.route('/times/<int:id_project>', methods=['GET'])
+def get_times(id_project: int):
+    try:  
+        id_project = id_project
         response = requests.get(API_URL + f'/GetTimesId/{id_project}')
         if response.status_code == 200:
             times = response.json()
         else:
             times = []
-        return render_template('time/times.html', times=times)
+        return render_template('time/times.html',  times=times, id_project=id_project)
     except Exception as e:
-            return render_template('error/error.html', error = str(e))
+        return render_template('error/error.html', error=str(e))
+
+
+
 
 @times_bp.route('/delete_time/<int:id_time>', methods=['POST'])
 def delete_time(id_time):
@@ -58,7 +62,7 @@ def edit_time(id_time):
         except Exception as e:
             return render_template('error/error.html', error = str(e))
 
-@times_bp.route('/create_time/', methods=['POST'])
+@times_bp.route('/create_time/', methods=['GET', 'POST'])
 def create_time():
     try:
         if request.method == 'POST':

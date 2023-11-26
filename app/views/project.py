@@ -28,7 +28,7 @@ def get_connection_by_id(id_connection):
             connection_data.append(data1)
         except ValueError:
             print("Erro: A resposta da primeira requisição não é um JSON válido.")
-    
+
     response2 = requests.get(API_URL + '/connections')
     
     if response2.status_code == 200:
@@ -42,108 +42,120 @@ def get_connection_by_id(id_connection):
 
 @projects_bp.route('/')
 def show_projects():
-    end = API_URL + '/GetAllProjects'  
-    response = requests.get(end)
+    try:
+        end = API_URL + '/GetAllProjects'  
+        response = requests.get(end) 
 
-    if response.status_code == 200:
-        projects = response.json()
-    else:
-        projects = []
+        if response.status_code == 200:
+            projects = response.json()
+        else:
+            projects = []
 
-    for project in projects:
+        for project in projects:
 
-        project['dt_last_run'] = datetime.fromisoformat(project['dt_last_run'])
-        project['dt_last_run'] = project['dt_last_run'].strftime('%d/%m/%Y %H:%M:%S')
+            project['dt_last_run'] = datetime.fromisoformat(project['dt_last_run'])
+            project['dt_last_run'] = project['dt_last_run'].strftime('%d/%m/%Y %H:%M:%S')
 
-    return render_template('projects/list_projects.html', projects=projects)
+        return render_template('projects/list_projects.html', projects=projects)
+    except Exception as e:
+            return render_template('error/error.html', error = str(e))
+
 
 
 @projects_bp.route('/create_project', methods=['GET', 'POST'])
 def create_project():
-    connections_list = get_connections_list()
+    try:
+        connections_list = get_connections_list()
 
-    if request.method == 'GET':
-        return render_template('projects/create_project.html', connections_list=connections_list)
-    
-    if request.method == 'POST':
-        name_project = request.form.get('name_project')
-        fl_active = request.form.get('fl_active')
-        connection_origin1 = request.form.get('connection_origin1')
-        connection_origin2 = request.form.get('connection_origin2')
-        current_datetime = datetime.now()
-        dt_last_run = current_datetime.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+        if request.method == 'GET':
+            return render_template('projects/create_project.html', connections_list=connections_list)
+        
+        if request.method == 'POST':
+            name_project = request.form.get('name_project')
+            fl_active = request.form.get('fl_active')
+            type_project = request.form.get('type_project')
+            connection_origin1 = request.form.get('connection_origin1')
+            connection_origin2 = request.form.get('connection_origin2')
+            current_datetime = datetime.now()
+            dt_last_run = current_datetime.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
-        project = {
-            'name_project': name_project,
-            'dt_last_run': dt_last_run,
-            'fl_active': fl_active,
-            'connection_origin1': connection_origin1,
-            'connection_origin2': connection_origin2,
-        }
+            project = {
+                'name_project': name_project,
+                'dt_last_run': dt_last_run,
+                'fl_active': fl_active,
+                'type_project': type_project,
+                'connection_origin1': connection_origin1,
+                'connection_origin2': connection_origin2,
+            }
 
-        response = requests.post( API_URL + '/CreateProjects', json=project) 
+            response = requests.post( API_URL + f'/CreateProjects/{type_project}', json=project) 
 
-        if response.status_code == 200:
-            return redirect(url_for('projects.show_projects')) 
-        else:
+            if response.status_code == 200:
+                return redirect(url_for('projects.show_projects')) 
+            else:
 
-            return "Erro ao criar o projeto"
+                return "Erro ao criar o projeto"
 
-    return redirect(url_for('projects.show_projects'))
-    
- 
+        return redirect(url_for('projects.show_projects'))
+    except Exception as e:
+            return render_template('error/error.html', error = str(e))
 
 @projects_bp.route('/view_project/<project_id>', methods=['GET', 'POST'])
 def view_project(project_id):
-    if request.method == 'GET':
-        response = requests.get(API_URL + f'/GetProjectsId/{project_id}') 
-        if response.status_code == 200:
-            project_data = response.json()
-            
-            connection_origin1 = get_connection_by_id(project_data['connection_origin1'])
-            connection_origin2 = get_connection_by_id(project_data['connection_origin2'])
-            
-            return render_template('projects/view_project.html', project=project_data, 
-                                   connection_origin1=connection_origin1, connection_origin2=connection_origin2)
-        else:
-            return "Erro ao obter os detalhes do projeto"
+    try:
+        if request.method == 'GET':
+            response = requests.get(API_URL + f'/GetProjectsId/{project_id}')
+            if response.status_code == 200:
+                project_data = response.json()
+
+                connection_origin1 = get_connection_by_id(project_data['connection_origin1'])
+                connection_origin2 = get_connection_by_id(project_data['connection_origin2'])
+
+                return render_template('projects/view_project.html', project=project_data, 
+                                       connection_origin1=connection_origin1, connection_origin2=connection_origin2)
+    except Exception as e:
+            return render_template('error/error.html', error = str(e))
+
 
 @projects_bp.route('/edit_project/<int:id_project>', methods=['POST'])  
 def edit_project(id_project):
-    if request.method == 'POST':
-        name_project = request.form.get('name_project')
-        fl_active = request.form.get('fl_active')
-        connection_origin1 = request.form.get('connection_origin1')
-        connection_origin2 = request.form.get('connection_origin2')
-        project = {
-            'name_project': name_project,
-            'fl_active': fl_active,
-            'connection_origin1': connection_origin1,
-            'connection_origin2': connection_origin2,
-        }
-        response = requests.put(API_URL + f'/GetProjectsId/{id_project}', json=project)
-
-        if response.status_code == 200:
-            return redirect(url_for('projects.show_projects'))
-        else:
-            return "Erro ao atualizar o projeto"
-
-    return redirect(url_for('projects.show_projects'))
- 
- 
-@projects_bp.route('/edit_project/delete_project/<int:project_id>', methods=['POST'])
-def delete_project(project_id):
-    if request.method == 'POST':
-        try:
-            api_url =  API_URL + '/DeleteProjects/{project_id}'
-            response = requests.delete(api_url)
+    try:
+        if request.method == 'POST':
+            name_project = request.form.get('name_project')
+            fl_active = request.form.get('fl_active')
+            connection_origin1 = request.form.get('connection_origin1')
+            connection_origin2 = request.form.get('connection_origin2')
+            project = {
+                'name_project': name_project,
+                'fl_active': fl_active,
+                'connection_origin1': connection_origin1,
+                'connection_origin2': connection_origin2,
+            }
+            response = requests.put(API_URL + f'/GetProjectsId/{id_project}', json=project)
 
             if response.status_code == 200:
-                return jsonify({"message": "Projeto excluído com sucesso"})
+                return redirect(url_for('projects.show_projects'))
             else:
-                return jsonify({"error": "Erro ao excluir o projeto"})
-        except Exception as e:
-            return jsonify({"error": str(e)})
-    else:
-        pass
+                return "Erro ao atualizar o projeto"
+
+        return redirect(url_for('projects.show_projects'))
+    except Exception as e:
+            return render_template('error/error.html', error = str(e))
+
+
+@projects_bp.route('/edit_project/delete_project/<int:project_id>', methods=['GET'])
+def delete_project(project_id):
+    try:
+        if request.method == 'GET':
+            try: 
+                api_url =  f"{API_URL}/DeleteProjects/{project_id}"
+                response = requests.delete(api_url)
+                if response.status_code == 200:
+                    return redirect(url_for('projects.show_projects'))
+            except Exception as e:
+                return jsonify({"error": str(e)})
+        else:
+            pass
+    except Exception as e:
+            return render_template('error/error.html', error = str(e))
     

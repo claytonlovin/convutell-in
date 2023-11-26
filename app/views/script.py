@@ -7,20 +7,19 @@ script_bp = Blueprint('script', __name__, template_folder="./templates", static_
 API_URL = config('API_URL')
 
 @script_bp.route('/view_script/<int:id_project>', methods=['GET', 'POST'])
-def view_script(id_project):
-    if request.method == 'GET':
-        try:
-            response = requests.get(API_URL + f'/GetqueriesIdprojects/{id_project}') 
-            if response.status_code == 200:
-                query_data = response.json()
-            else:
-                query_data = []
-            return render_template('scripts/views_script.html', query_data=query_data)
-        except Exception as e:
-            return render_template('error/error.html', error = str(e))
-    else:
-        abort(405, "Método não suportado. Apenas o método GET é permitido nesta rota.")
- 
+def view_script(id_project: int):
+    try:
+        if request.method == 'GET':
+                id_project = id_project
+                response = requests.get(API_URL + f'/GetqueriesIdprojects/{id_project}') 
+                if response.status_code == 200:
+                    query_data = response.json()
+                else:
+                    query_data = []
+                return render_template('scripts/views_script.html', query_data=query_data, id_project=id_project)
+    except Exception as e:
+        return render_template('error/error.html', error = str(e))
+    
 @script_bp.route('/create_script/', methods=['POST'])
 def create_script():
     try:

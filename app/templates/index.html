@@ -19,13 +19,19 @@
      
     <!-- Custom styles for this template-->
     <link href="{{ url_for('static', filename='css/sb-admin-2.css' )}}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css' )}}" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/dracula.css">
 
 </head>
 
 <body id="page-top">
-
-    <!-- Page Wrapper -->
+     <!-- 
+     <div id="loader-wrapper" class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+    Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -71,14 +77,14 @@
             </li>-->
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('conection.get_connection')}}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Conexões</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{{url_for('logs.get_all_logs')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Logs</span></a>
@@ -406,13 +412,14 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"> </script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"> </script>
     <!-- Custom scripts for all pages-->
-    <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sb-admin-2.js') }}"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 <script>
     $(document).ready(function () {
         $('#logTable').DataTable();
     });
 </script>
+ 
 </body>
 
 </html>

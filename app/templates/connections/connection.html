@@ -49,7 +49,7 @@
                         <input type="text" class="form-control" id="ds_user" name="ds_user" value="">
                     </div>
                     <div class="form-group">
-                        <label for="ds_connection">Conexão</label>
+                        <label for="ds_connection">Host</label>
                         <input type="text" class="form-control" id="ds_connection" name="ds_connection" value="">
                     </div>
                     <div class="form-group">
@@ -66,7 +66,12 @@
                     </div>
                     <div class="form-group">
                         <label for="ds_connector">Conector</label>
-                        <input type="text" class="form-control" id="ds_connector" name="ds_connector" value="">
+                        <select class="form-control" id="ds_connector" name="ds_connector" >
+                            <option value="1">MySQL</option>
+                            <option value="2">Postgres</option>
+                            <option disabled="disabled" value="oracle">Oracle</option>
+                            <option disabled="disabled" value="sqlserver">SQL Server</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Salvar</button>
                 </form>
